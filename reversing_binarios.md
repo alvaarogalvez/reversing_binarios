@@ -16,6 +16,8 @@ hello:     file format elf64-x86-64
 
 Disassembly of section .init:
 
+```bash
+
 0000000000001000 <_init>:
     1000:       48 83 ec 08             sub    $0x8,%rsp
     1004:       48 8b 05 c5 2f 00 00    mov    0x2fc5(%rip),%rax        # 3fd0 <__gmon_start__@Base>
@@ -24,6 +26,7 @@ Disassembly of section .init:
     1010:       ff d0                   call   *%rax
     1012:       48 83 c4 08             add    $0x8,%rsp
     1016:       c3                      ret
+```
 
 Disassembly of section .plt:
 
