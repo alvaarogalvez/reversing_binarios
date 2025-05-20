@@ -30,6 +30,8 @@ Disassembly of section .init:
 
 Disassembly of section .plt:
 
+```bash
+
 0000000000001020 <puts@plt-0x10>:
     1020:       ff 35 ca 2f 00 00       push   0x2fca(%rip)        # 3ff0 <_GLOBAL_OFFSET_TABLE_+0x8>
     1026:       ff 25 cc 2f 00 00       jmp    *0x2fcc(%rip)        # 3ff8 <_GLOBAL_OFFSET_TABLE_+0x10>
@@ -136,7 +138,7 @@ Disassembly of section .fini:
     1158:       48 83 c4 08             add    $0x8,%rsp
     115c:       c3                      ret
 
-
+```
 
 ![alt text](image-1.png)
 
@@ -171,6 +173,7 @@ Analiza el ejecutable `serial-check` y obtén acceso a la aplicación.
 
 ![alt text](image-4.png)
 
+```bash
  strings serial-check  
 /lib64/ld-linux-x86-64.so.2
 puts
@@ -259,6 +262,8 @@ _init
 .data
 .bss
 .comment
+```
+
 
 ![alt text](image-5.png)
 
@@ -273,6 +278,7 @@ Modifica el ejecutable de `serial-check` para que acepte el serial `pass1234`.
 
 Analiza los ejecutables `mindreader` y `mindreader2`. ¿Eres capaz de saber cual está compilada desde C, y cual desde python? ¿Por qué?
 
+```bash
 r2 -d mindreader  
 WARN: Relocs has not been applied. Please use `-e bin.relocs.apply=true` or `-e bin.cache=true` next time
 [0x7f1de0810b00]> iI
@@ -306,8 +312,10 @@ stripped false
 subsys   linux
 va       true
 [0x7f1de0810b00]> 
+```
 
 
+```bash
 r2 -d mindreader2 
 WARN: Relocs has not been applied. Please use `-e bin.relocs.apply=true` or `-e bin.cache=true` next time
 [0x7f756b0aab00]> iI
@@ -341,6 +349,10 @@ stripped true
 subsys   linux
 va       true
 [0x7f756b0aab00]> 
+
+```
+
+```bash
 
  r2 -d mindreader2
 WARN: Relocs has not been applied. Please use `-e bin.relocs.apply=true` or `-e bin.cache=true` next time
@@ -659,6 +671,8 @@ nth paddr      vaddr      len size section type  string
 308 0x0000b01b 0x0040b01b 4   5    .rodata ascii TEMP
 [0x7fdc9687eb00]> 
 
+```
+```bash
 r2 -d mindreader2
 WARN: Relocs has not been applied. Please use `-e bin.relocs.apply=true` or `-e bin.cache=true` next time
 [0x7f7b9496ab00]> iz~py
@@ -678,7 +692,7 @@ WARN: Relocs has not been applied. Please use `-e bin.relocs.apply=true` or `-e 
 288 0x0000ad98 0x0040ad98 40  41   .rodata ascii LOADER: failed to allocate pyi_argv: %s\n
 [0x7f7b9496ab00]> 
 
-
+```
 
 ### Conclusión
 
@@ -696,6 +710,8 @@ Otra pista clara es el tamaño: mientras que mindreader es un binario muy ligero
 ## Ejercicio 5
 
 Ambos ejecutables tienen una flag, intenta hacer que el programa te de la flag. **NO** sirve encontrar la flag como un string, debes provocar que el ejecutable lo devuelva en tiempo de ejecución.
+
+```bash
 
 r2 mindreader    
 WARN: Relocs has not been applied. Please use `-e bin.relocs.apply=true` or `-e bin.cache=true` next time
@@ -733,8 +749,7 @@ INFO: Use -AA or aaaa to perform additional experimental analysis
 0x00001229    6    175 sym.adivinar_palabra
 0x00001000    3     27 sym._init
 [0x00001140]> 
-
-
+```
 Accedemos a la función sym.main y a imprimirla para observar su comportamiento
 
 ![alt text](image-7.png)
@@ -752,6 +767,7 @@ Finalmente, el programa finaliza su ejecución.
 
 Ahora comprobamos la función adivinar_palabra
 
+```bash
 [0x00001140]> s sym.main
 [0x000012d8]> pdf
             ; ICOD XREF from entry0 @ 0x1158(r)
@@ -840,6 +856,8 @@ Ahora comprobamos la función adivinar_palabra
 │       └─> 0x000012d6      c9             leave
 └           0x000012d7      c3             ret
 [0x00001229]>
+
+```
 
 Se muestra en pantalla el mensaje "Password:" para solicitar una contraseña al usuario.
 
